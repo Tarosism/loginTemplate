@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Mypage({ accessToken, kindOfLogin }) {
+export default function Mypage({ accessToken, kindOfLogin, kakaoUserData }) {
   const [userImage, setUserImage] = useState([]);
   const [userId, setUserId] = useState("");
-
   useEffect(() => {
     if (kindOfLogin === "google") googleUserInfo();
-    //else if (kindOfLogin === "kakao") console.log("아직안만들었지롱");
+    else if (kindOfLogin === "kakao") kakaoUserInfo();
   });
 
   const googleUserInfo = async () => {
@@ -20,6 +19,11 @@ export default function Mypage({ accessToken, kindOfLogin }) {
         setUserImage(res.data.picture);
       })
       .catch((err) => console.log(err));
+  };
+
+  const kakaoUserInfo = () => {
+    setUserId(kakaoUserData.nickName);
+    setUserImage(kakaoUserData.profileImageURL);
   };
 
   return (
